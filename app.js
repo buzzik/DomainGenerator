@@ -1,6 +1,4 @@
 const credentials = require('./credentials.js');
-
-
 const path = require("path");
 const prompt = require('prompt-sync')();
 const got = require('got');
@@ -11,6 +9,8 @@ const FileWriter = require('./src/FileWriter.js');
 const generator = new DomainGenerator();
 const checker = new DomainChecker(credentials.secret, credentials.key);
 const exporter = new FileWriter();
+
+
 generator.optMaxLength = prompt(`Enter Max Length limit (8) :`, 8);
 generator.optFirstPartLength = prompt(`Enter first part Length  (flexible) :`);
 generator.optDomainZone = prompt(`Enter Domain Zone (.com) :`, '.com');
@@ -21,9 +21,6 @@ try {
     let checkedArr = checker.groupCheck(rawArr);
     checkedArr.then((result) => {
         exporter.writeArray(result);
-        // result.forEach(element => {
-        //     console.log(`${element.domain} - ${element.available}`)
-        // });
     });
 } catch (e) {
     console.log(e);
