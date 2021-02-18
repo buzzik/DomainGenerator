@@ -3,7 +3,7 @@ const fs = require("fs");
 const util = require("util");
 const path = require("path");
 const prompt = require('prompt-sync')();
-const https = require('https');
+const got = require('got');
 const process = require('process');
 class DomainGenerator {
     constructor() {
@@ -57,14 +57,8 @@ class DomainGenerator {
             }
         });
     }
+
 }
-
-class DomainChecker {
-    constructor() {
-
-    }
-}
-
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -78,10 +72,7 @@ function drawProgress(i, size) {
 }
 
 function processArray(array, iterator) {
-    if (this._counter < array.length) {
-        this.getDomainInfo(array[this._counter]);
-        this._counter++;
-    }
+
 }
 let Generator = new DomainGenerator();
 
