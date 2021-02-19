@@ -8,7 +8,6 @@ const FileWriter = require('./src/FileWriter.js');
 
 const generator = new DomainGenerator();
 const exporter = new FileWriter();
-
 generator.optMaxLength = prompt(`Enter Max Length limit (8) :`, 8);
 generator.optFirstPartLength = prompt(`Enter first part Length  (flexible) :`);
 generator.optDomainZone = prompt(`Enter Domain Zone (.com) :`, '.com');
@@ -39,4 +38,5 @@ function exit() {
     process.stdin.setRawMode(true);
     process.stdin.resume();
     process.stdin.on('data', process.exit.bind(process, 0));
+
 }
