@@ -17,7 +17,7 @@ module.exports = class DomainChecker {
     async checkDomain(domain) {
         this.options.searchParams.domain = domain;
         // const body = await got('https://api.godaddy.com/v1/domains/available', this.options).json();
-        return got('https://api.ote-godaddy.com/v1/domains/available', this.options).json();
+        return got('https://api.godaddy.com/v1/domains/available', this.options).json();
     }
     async groupCheck(array, callback) {
         let results = [];
