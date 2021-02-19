@@ -24,16 +24,13 @@ module.exports = class DomainChecker {
         let res;
         let iterator = 0;
         for (const url of array) {
-
             let res = await this.checkDomain(url);
             results.push(res);
             iterator++;
             drawProgress(iterator, array.length);
-
         }
         console.log(`\nDone.`);
         return results;
-        // callback(result);
     }
 };
 

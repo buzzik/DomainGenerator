@@ -40,7 +40,7 @@ module.exports = class FileWriter {
             file.write(`${line}\n`);
         });
         file.end();
-        console.log(`Data writed`);
+        console.log(`Data writed to ${path}`);
         return path;
     }
 };
