@@ -23,10 +23,20 @@ let rusultFilePath;
     if (checkFlag == "n") {
         console.log(`Checking cancelled.`);
         rusultFilePath = await exporter.writeArray(rawArr, "unchecked");
+        exit();
         return;
     }
     const checker = new DomainChecker(credentials.secret, credentials.key);
     let checkedArr = await checker.groupCheck(rawArr);
-    rusultFilePath = await exporter.writeArray(checkedArr, 'checked', ['domain', 'available', 'price']);
+    let fields = ['domain', 'available', 'price'];
+    rusultFilePath = await exporter.writeArray(checkedArr, 'checked', fields);
+    exit();
 
 })();
+
+function exit() {
+    console.log('Press any key to exit');
+    process.stdin.setRawMode(true);
+    process.stdin.resume();
+    process.stdin.on('data', process.exit.bind(process, 0));
+}
