@@ -1,9 +1,4 @@
-fun
-rich
-play
-fast
-king
-good
-crown
-royal
-golden
+Albatross
+Alligator
+Angelfish
+Ant
