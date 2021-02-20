@@ -6,7 +6,7 @@ module.exports = class DomainGenerator {
         this.inputFile2 = "input_2.txt";
         this.optMaxLength = 6;
         this.optFirstPartLength = undefined;
-        this.optDomainZone = ".com";
+        this.optDomainZone = "com";
         this.optTwoways = "n";
         this.resArr = [];
         this.firstArr = [];
@@ -33,9 +33,9 @@ module.exports = class DomainGenerator {
                 let allowedLength = this.optMaxLength - secondPart.length;
                 for (const firstPart of this.firstArr) {
                     if ((this.optFirstPartLength && this.optFirstPartLength == firstPart.length) || (!this.optFirstPartLength && firstPart.length <= allowedLength)) {
-                        this.resArr.push(`${capitalizeFirstLetter(firstPart)}${capitalizeFirstLetter(secondPart)}${this.optDomainZone}`);
+                        this.resArr.push(`${capitalizeFirstLetter(firstPart)}${capitalizeFirstLetter(secondPart)}.${this.optDomainZone}`);
                         if (this.optTwoways == "y") {
-                            this.resArr.push(`${capitalizeFirstLetter(secondPart)}${capitalizeFirstLetter(firstPart)}${this.optDomainZone}`);
+                            this.resArr.push(`${capitalizeFirstLetter(secondPart)}${capitalizeFirstLetter(firstPart)}.${this.optDomainZone}`);
                         }
                     }
                 }

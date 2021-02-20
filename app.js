@@ -12,14 +12,14 @@ const FileWriter = require('./src/FileWriter.js');
 const credsFilePath = './credentials.json';
 const generator = new DomainGenerator();
 const exporter = new FileWriter();
-generator.optMaxLength = prompt(`Enter Max Length limit (8) :`, 8);
-generator.optFirstPartLength = prompt(`Enter first part Length  (flexible) :`);
-generator.optDomainZone = prompt(`Enter Domain Zone (.com) :`, '.com');
-generator.optTwoways = prompt(`Try reverse concatination? y/n (n) :`, 'n');
+generator.optMaxLength = prompt(`Enter Max Length limit (8) : `, 8);
+generator.optFirstPartLength = prompt(`Enter first part Length  (flexible) : `);
+generator.optDomainZone = prompt(`Enter Domain Zone (com) : `, 'com');
+generator.optTwoways = prompt(`Try reverse concatination? y/n (n) : `, 'n');
 
 (async() => {
     let rawArr = generator.init();
-    let checkFlag = prompt(`Check domains on GoDaddy? y/n (n) :`, 'n');
+    let checkFlag = prompt(`Check domains on GoDaddy? y/n (n) : `, 'n');
     let rusultFilePath;
     let checkedArr = [];
 
