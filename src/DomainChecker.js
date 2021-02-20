@@ -16,18 +16,24 @@ module.exports = class DomainChecker {
     }
     async checkDomain(domain) {
         this.options.searchParams.domain = domain;
-        // const body = await got('https://api.godaddy.com/v1/domains/available', this.options).json();
-        return got('https://api.godaddy.com/v1/domains/available', this.options).json();
+
+        return await got('https://api.godaddy.com/v1/domains/available', this.options).json();
+
     }
     async groupCheck(array, callback) {
         let results = [];
         let res;
         let iterator = 0;
         for (const url of array) {
-            let res = await this.checkDomain(url);
-            results.push(res);
+            try {
+                let res = await this.checkDomain(url);
+                results.push(res);
+            } catch (e) {
+                throw e;
+            }
             iterator++;
             drawProgress(iterator, array.length);
+            process.stdout.write(` ${url}`);
         }
         console.log(`\nDone.`);
         return results;

@@ -26,8 +26,6 @@ module.exports = class FileWriter {
             }
             file.write(`${columnCaptions}\n`);
         }
-
-
         array.forEach(function(el) {
             let line = '';
             if (fields) {
