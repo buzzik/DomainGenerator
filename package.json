@@ -6,7 +6,7 @@
     "bin": "app.js",
     "pkg": {
         "assets": ["node_modules/**/*", "src/**/*"],
-        "targets": ["node10-win-x64"]
+        "targets": ["node12-win-x64"]
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

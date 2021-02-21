@@ -1,4 +1,7 @@
-// const credentials = require('./credentials.js');
+/*
+Created by buzzik
+https://github.com/buzzik/DomainGenerator/
+*/
 const path = require("path");
 const fs = require("fs");
 const { promisify } = require("util");
@@ -23,6 +26,13 @@ generator.optTwoways = prompt(`Try reverse concatination? y/n (n) : `, 'n');
     let rusultFilePath;
     let checkedArr = [];
 
+
+    if (checkFlag == "n") {
+        console.log(`Checking cancelled.`);
+        rusultFilePath = await exporter.writeArray(rawArr, "unchecked");
+        exit();
+        return;
+    }
     if (!fs.existsSync(credsFilePath)) {
         console.log(`You need to provide GoDaddy API credentials to continue. Please go to https://developer.godaddy.com/keys and enter your key and secret.`)
         let key = prompt(`Key: `);
@@ -35,15 +45,7 @@ generator.optTwoways = prompt(`Try reverse concatination? y/n (n) : `, 'n');
         fs.appendFile(credsFilePath, json, (err) => { if (err) { throw err; } });
     }
     const credsFileData = await readFile(credsFilePath);
-
     const credentials = JSON.parse(credsFileData);
-
-    if (checkFlag == "n") {
-        console.log(`Checking cancelled.`);
-        rusultFilePath = await exporter.writeArray(rawArr, "unchecked");
-        exit();
-        return;
-    }
     const checker = new DomainChecker(credentials.secret, credentials.key);
     try {
         checkedArr = await checker.groupCheck(rawArr);
