@@ -18,14 +18,10 @@ module.exports = class DomainChecker {
 
   async checkDomain(domain) {
     this.options.searchParams.domain = domain;
-
-    return await got(
-      'https://api.godaddy.com/v1/domains/available',
-      this.options
-    ).json();
+    return got('https://api.godaddy.com/v1/domains/available', this.options).json();
   }
 
-  async groupCheck(array, callback) {
+  async groupCheck(array) {
     const results = [];
     let iterator = 0;
     for (const url of array) {

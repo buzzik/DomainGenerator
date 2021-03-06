@@ -1,5 +1,6 @@
 const util = require('util');
 const fs = require('fs');
+const readFile = util.promisify(fs.readFile);
 module.exports = class DomainGenerator {
   constructor() {
     this.inputFile1 = 'input_1.txt';
@@ -15,42 +16,36 @@ module.exports = class DomainGenerator {
     this._counter = 0;
   }
 
-  init() {
-    this.firstArr = this.readFiles(this.inputFile1);
-    this.secondArr = this.readFiles(this.inputFile2);
-    this.mergeParts();
+  async generate() {
+    this.firstArr = await this._readFile(this.inputFile1);
+    this.secondArr = await this._readFile(this.inputFile2);
+    this._mergeParts();
     console.log(`Generated ${this.resArr.length} domains.`);
     return this.resArr;
   }
 
-  readFiles(filepath, progress) {
-    const data = fs.readFileSync(filepath, 'utf8');
-    const content = util.format(data);
-    const array = content.split(/\r?\n|\r/g);
-    return array;
+  async _readFile(filepath) {
+    try {
+      const data = await readFile(filepath, 'utf8');
+      const content = util.format(data);
+      const array = content.split(/\r?\n|\r/g);
+      return array;
+    } catch (error) {
+      if (error) {
+        throw error;
+      }
+    }
   }
 
-  mergeParts() {
+  _mergeParts() {
     this.secondArr.forEach((secondPart) => {
       if (secondPart.length < this.optMaxLength) {
         const allowedLength = this.optMaxLength - secondPart.length;
         for (const firstPart of this.firstArr) {
-          if (
-            (this.optFirstPartLength &&
-              this.optFirstPartLength === firstPart.length) ||
-            (!this.optFirstPartLength && firstPart.length <= allowedLength)
-          ) {
-            this.resArr.push(
-              `${capitalizeFirstLetter(firstPart)}${capitalizeFirstLetter(
-                secondPart
-              )}.${this.optDomainZone}`
-            );
+          if ((this.optFirstPartLength && this.optFirstPartLength === firstPart.length) || (!this.optFirstPartLength && firstPart.length <= allowedLength)) {
+            this.resArr.push(`${capitalizeFirstLetter(firstPart)}${capitalizeFirstLetter(secondPart)}.${this.optDomainZone}`);
             if (this.optTwoways === 'y') {
-              this.resArr.push(
-                `${capitalizeFirstLetter(secondPart)}${capitalizeFirstLetter(
-                  firstPart
-                )}.${this.optDomainZone}`
-              );
+              this.resArr.push(`${capitalizeFirstLetter(secondPart)}${capitalizeFirstLetter(firstPart)}.${this.optDomainZone}`);
             }
           }
         }
