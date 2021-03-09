@@ -103,6 +103,8 @@ dist
 # TernJS port file
 .tern-port
 
+.vscode
+.vscode/
 credentials.json
 /result/*
 !result/.gitkeep 
