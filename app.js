@@ -1,7 +1,3 @@
-/*
-Created by buzzik
-https://github.com/buzzik/DomainGenerator/
-*/
 const fs = require('fs');
 const { promisify } = require('util');
 const readFile = promisify(fs.readFile);
@@ -9,9 +5,11 @@ const prompt = require('prompt-sync')();
 const DomainChecker = require('./src/DomainChecker.js');
 const DomainGenerator = require('./src/DomainGenerator.js');
 const FileWriter = require('./src/FileWriter.js');
-const credsFilePath = './credentials.json';
+const credsFilePath = 'credentials.json';
+const JSONCredentials = require('./src/JSONCredentials.js');
 const generator = new DomainGenerator();
 const exporter = new FileWriter();
+
 generator.optMaxLength = prompt('Enter Max Length limit (8) : ', 8);
 generator.optFirstPartLength = prompt('Enter first part Length  (flexible) : ');
 generator.optDomainZone = prompt('Enter Domgitain Zone (com) : ', 'com');
@@ -25,26 +23,10 @@ generator.optTwoways = prompt('Try reverse concatination? y/n (n) : ', 'n');
   if (checkFlag === 'n') {
     console.log('Checking cancelled.');
     await exporter.writeArray(rawArr, 'unchecked');
-    exit();
-    return;
+    return exit();
   }
-  if (!fs.existsSync(credsFilePath)) {
-    console.log('You need to provide GoDaddy API credentials to continue. Please go to https://developer.godaddy.com/keys and enter your key and secret.');
-    const key = prompt('Key: ');
-    const secret = prompt('Secret: ');
-    const creds = {
-      key: key,
-      secret: secret
-    };
-    const json = JSON.stringify(creds);
-    fs.appendFile(credsFilePath, json, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
-  }
-  const credsFileData = await readFile(credsFilePath);
-  const credentials = JSON.parse(credsFileData);
+  const credentials = await new JSONCredentials(['key', 'secret'], credsFilePath);
+  console.log(credentials);
   const checker = new DomainChecker(credentials.secret, credentials.key);
   try {
     checkedArr = await checker.groupCheck(rawArr);
