@@ -1,12 +1,8 @@
-const fs = require('fs');
-const { promisify } = require('util');
-const readFile = promisify(fs.readFile);
 const prompt = require('prompt-sync')();
-const DomainChecker = require('./src/DomainChecker.js');
-const DomainGenerator = require('./src/DomainGenerator.js');
-const FileWriter = require('./src/FileWriter.js');
-const credsFilePath = 'credentials.json';
-const JSONCredentials = require('./src/JSONCredentials.js');
+const DomainChecker = require('./src/domain-checker.js');
+const DomainGenerator = require('./src/domain-generator.js');
+const FileWriter = require('./src/file-writer.js');
+const JSONCredentials = require('./src/json-credentials.js');
 const generator = new DomainGenerator();
 const exporter = new FileWriter();
 
@@ -25,8 +21,8 @@ generator.optTwoways = prompt('Try reverse concatination? y/n (n) : ', 'n');
     await exporter.writeArray(rawArr, 'unchecked');
     return exit();
   }
-  const credentials = await new JSONCredentials(['key', 'secret'], credsFilePath);
-  console.log(credentials);
+  const creds = new JSONCredentials(['key', 'secret']);
+  const credentials = await creds.get();
   const checker = new DomainChecker(credentials.secret, credentials.key);
   try {
     checkedArr = await checker.groupCheck(rawArr);
