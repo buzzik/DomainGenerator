@@ -2,7 +2,8 @@ const prompt = require('prompt-sync')();
 const DomainChecker = require('./src/domain-checker.js');
 const DomainGenerator = require('./src/domain-generator.js');
 const FileWriter = require('./src/file-writer.js');
-const JSONCredentials = require('./src/json-credentials.js');
+// const { getCreds } = require('./src/json-credentials.js');
+const { getCreds } = require('../json-credentials/index.js');
 const generator = new DomainGenerator();
 const exporter = new FileWriter();
 
@@ -21,9 +22,9 @@ generator.optTwoways = prompt('Try reverse concatination? y/n (n) : ', 'n');
     await exporter.writeArray(rawArr, 'unchecked');
     return exit();
   }
-  const creds = new JSONCredentials(['key', 'secret']);
-  const credentials = await creds.get();
-  const checker = new DomainChecker(credentials.secret, credentials.key);
+  // const creds = new JSONCredentials(['key', 'secret']);
+  const credsData = await getCreds(['key', 'secret']);
+  const checker = new DomainChecker(credsData.secret, credsData.key);
   try {
     checkedArr = await checker.groupCheck(rawArr);
   } catch (e) {

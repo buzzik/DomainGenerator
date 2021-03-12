@@ -5,8 +5,13 @@
     "main": "app.js",
     "bin": "app.js",
     "pkg": {
-        "assets": ["node_modules/**/*", "src/**/*"],
-        "targets": ["node12-win-x64"]
+        "assets": [
+            "node_modules/**/*",
+            "src/**/*"
+        ],
+        "targets": [
+            "node12-win-x64"
+        ]
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,5 +23,12 @@
         "got": "^11.8.1",
         "prompt": "^1.1.0",
         "prompt-sync": "^4.2.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.21.0",
+        "eslint-config-standard": "^16.0.2",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.3.1"
     }
 }
